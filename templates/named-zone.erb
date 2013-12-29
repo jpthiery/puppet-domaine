@@ -1,0 +1,9 @@
+cat >> /etc/bind/named.conf.options <<EOL
+
+zone "<%= @name %>" {
+  type master;
+  notify yes;
+  allow-transfer {<%= @allowtransfer %>;} ;
+  file "/etc/bind/db.<%= @name %>";
+};
+EOL
