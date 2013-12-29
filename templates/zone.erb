@@ -1,0 +1,34 @@
+;$TTL   604800
+@       IN      SOA     ns.<%= @name %>. <%= @rootname %>. (
+                    <%= @dnsserial %>  ; Serial
+                        28800           ; Refresh
+                        3600            ; Retry
+                        604800          ; Expire
+                        38400 ) ; Negative Cache TTL
+;
+@       IN      NS      ns.<%= @name %>.
+ns.<%= @name %>.  IN      A       <%= @ipaddress_eth0 %>
+ns      HINFO "named debian" "blah xD"
+@       IN      A       <%= @ipaddress_eth0 %>
+@		IN		NS		<%= @nssecondaire %>.
+;
+;	Subs domaine
+;
+<% @subdomaines.each do |sub| -%>
+<%= sub %>	CNAME	@
+<% end -%>
+<% if @customentry && @customentry.length > 0 -%> 
+;
+;	Custom entry
+;
+<% @customentry.each do |record| -%>
+<%= record[0] %>			<%= record[1] %>			<%= record[2] %>
+<% end -%>
+<% end -%>
+<% if @mail -%>
+;
+;	Mail Mx configuration
+;
+@			IN MX			5 <%= @name %>.
+<%= @name %>.			IN TXT			"v=spf1 a mx ~all"
+<% end -%>
