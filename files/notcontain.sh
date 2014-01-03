@@ -1,5 +1,5 @@
 #!/bin/bash
-if grep -q $1 /etc/bind/named.conf.options
+if grep -q $1 $2
 then
 	exit 1
 else 
