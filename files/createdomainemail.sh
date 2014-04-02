@@ -1,7 +1,7 @@
 #!/bin/bash
 # Usage : createdomainemail <domaine.com>
 
-if [ $# -neq  2 ]; then
+if [ $# -ne  2 ]; then
 	echo "Usage : createdomainemail <domaine.com> <user@mail.com>"
     exit 1
 fi
@@ -12,7 +12,7 @@ VADDDOMAIN_CMD=/home/vpopmail/bin/vadddomain
 DOMAINE=$1
 TO=$2
 
-if [ -z `$VDOMINFO_CMD $DOMAINE | grep "^domain: $DOAMINE\$" | uniq -c | awk {'print $1'}` ]; then
+if [ -z `$VDOMINFO_CMD $DOMAINE | grep "^domain: $DOMAINE\$" | uniq -c | awk {'print $1'}` ]; then
     ADDED=$($VADDDOMAIN_CMD -r10 $DOMAINE)
     ADDED_RET=$?
     if [ $ADDED_RET -eq 0 ]; then
@@ -23,6 +23,7 @@ Postmaster password: $PASS
 $QMAILADMINURL
 EOM
 	else
+		echo "error while creating $DOMAINE"
 		exit $ADDED_RET
     fi
 fi
